@@ -1,0 +1,27 @@
+# Dijkstra's Algorithm Implementation
+import heapq
+
+def dijkstra(graph, start):
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+    pq = [(0, start)]
+    while pq:
+        curr_dist, curr_node = heapq.heappop(pq)
+        for neighbor, weight in graph[curr_node].items():
+            distance = curr_dist + weight
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(pq, (distance, neighbor))
+    return distances
+
+if __name__ == "__main__":
+    graph = {
+        'A': {'B': 4, 'C': 2},
+        'B': {'C': 3, 'D': 2, 'E': 3},
+        'C': {'B': 1, 'D': 4, 'E': 5},
+        'D': {},
+        'E': {'D': 1}
+    }
+    start = 'A'
+    print("Shortest distances from node", start, ":")
+    print(dijkstra(graph, start))
